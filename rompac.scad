@@ -1,16 +1,20 @@
 /*
- * $Id: rompac.scad 2025 2025-02-26 09:34:19 curt
+ * $Id: rompac.scad 2027 2025-03-01 14:11:11 curt
  */
 
 width = 100;
 length = 135;
-thick = 2;
+basethick = 2;
 pin = 82;
 bevel_width = 6;
 bevel_len = 16;
 high = 20;
-plat = 12;
+plat = 11;
+sidethick = 2;
 
+// edit this to generate either "b" - bottom
+// or "t" - top
+// or both -"tb"
 express = "t";
 
 module platform() {
@@ -34,33 +38,36 @@ module pin() {
 }
       
 module base() {
-    linear_extrude(height=thick) 
-        polygon([
+    difference() {
+        linear_extrude(height = basethick) 
+            polygon([
                 [ 0, bevel_width],
                 [ 0, width - bevel_width],
                 [ bevel_len, width],
                 [ length, width],
                 [ length, 0],
                 [ bevel_len, 0]]);
+        translate([10, 14, 1]) cube([120, 70, 2]);
+    }
 }
 
 module edge() {
     union() {
-        translate([bevel_len, 0, 0]) cube([length - bevel_len, 1, high]);
-        translate([length - 1, 0, 0]) cube([1, width, high]);
-        translate([bevel_len, width - 1, 0]) cube([length - bevel_len, 1, high]);
+        translate([bevel_len, 0, 0]) cube([length - bevel_len, sidethick, high]);
+        translate([length - sidethick, 0, 0]) cube([sidethick, width, high]);
+        translate([bevel_len, width - sidethick, 0]) cube([length - bevel_len, sidethick, high]);
         linear_extrude(height = high) union() {
-            polygon([[0, bevel_width + 1], [0, bevel_width], 
-                [bevel_len, 0], [bevel_len, 1]]);
-            polygon([[0, width - bevel_width], [0, width - bevel_width - 1], 
-                [bevel_len, width - 1], [bevel_len, width]]);
+            polygon([[0, bevel_width + sidethick], [0, bevel_width], 
+                [bevel_len, 0], [bevel_len, sidethick]]);
+            polygon([[0, width - bevel_width], [0, width - bevel_width - sidethick], 
+                [bevel_len, width - sidethick], [bevel_len, width]]);
         }
     }
 }
 
 module top() {
     toplip = 6;
-    linear_extrude(height=thick) 
+    linear_extrude(height = basethick) 
         polygon([
                 [ 0, bevel_width],
                 [ 0, width - bevel_width],
@@ -68,17 +75,21 @@ module top() {
                 [ length, width],
                 [ length, 0],
                 [ bevel_len, 0]]);
-    translate([pin, width / 2, 0]) cylinder(high / 2, r = 1.5);
+    
+    translate([pin, width / 2, 0]) cylinder(high - 6, r = 1.6);
 
-    translate([bevel_len, 1, 0]) cube([length - bevel_len - 1, 1, toplip]);
-    translate([length - 2, 1, 0]) cube([1, width - 2, toplip]);
-    translate([bevel_len, width - 2, 0]) cube([length - bevel_len - 1, 1, toplip]);
-    linear_extrude(height = 10) {
-        polygon([[0, bevel_width + 2], [0, bevel_width + 1], 
-                [bevel_len, 1], [bevel_len, 2]]);
-        polygon([[0, width - bevel_width - 1], [0, width - bevel_width - 2], 
-                [bevel_len, width - 2], [bevel_len, width-1]]);
+    translate([bevel_len, sidethick, 0]) cube([length - bevel_len - sidethick, 1, toplip]);
+    translate([length - sidethick - 1, sidethick, 0]) cube([1, width - (sidethick * 2), toplip]);
+    translate([bevel_len, width - sidethick - 1, 0]) cube([length - bevel_len - sidethick, 1, toplip]);
+    linear_extrude(height = 18) {
+        polygon([[0, bevel_width + (sidethick *2)], [0, bevel_width + sidethick], 
+                [bevel_len, sidethick], [bevel_len, (sidethick*2)]]);
+        polygon([[0, width - bevel_width - sidethick], [0, width - bevel_width - (sidethick * 2)], 
+                [bevel_len, width - (sidethick * 2)], [bevel_len, width-sidethick]]);
     }
+    translate([8,15,0]) cube([2,72, high - plat - 1.6]);
+    translate([8, 13, 0]) cube([124,4,high - plat - 1.6]);
+    translate([8, 84, 0]) cube([124,4,high - plat -1.6]);
 }
 
 if (search("b", express)) {
@@ -92,7 +103,7 @@ if (search("b", express)) {
 if (search("t", express)) {
     echo("t");
     if (search("b", express)) {
-        color("red") translate([0, width, 30]) rotate([180, 0, 0]) top();
+        color("red") translate([0, width, high]) rotate([180, 0, 0]) top();
         echo("tb");
     } else {
         top();
