@@ -1,5 +1,5 @@
 /*
- * $Id: rompac.scad 2028 2025-03-01 18:28:49 curt
+ * $Id: rompac.scad 2029 2025-03-02 08:44:02 curt
  */
 
 width = 100;
@@ -15,7 +15,7 @@ sidethick = 2;
 // edit this to generate either "b" - bottom
 // or "t" - top
 // or both -"tb"
-express = "b";
+express = "bt";
 
 module platform() {
     translate([8,12,0]) cube([2,73,plat]);
@@ -30,13 +30,6 @@ module lip() {
     translate([132,10,0]) cube([2,78,plat+2]); 
 }
 
-module pin() {
-    difference() {
-        translate([pin, width / 2, 0]) cylinder(high-2, r = 4);
-        translate([pin, width / 2, 0]) cylinder(high, r = 2);
-    }
-}
-      
 module base() {
     difference() {
         linear_extrude(height = basethick) 
@@ -96,10 +89,15 @@ module top() {
 }
 
 if (search("b", express)) {
-    edge();
-    base();
-    pin();
-    platform();
+    difference() {
+        union() {
+            edge();
+            base();
+            translate([pin, width / 2, 0]) cylinder(high-2, r = 4);
+            platform();
+        }
+        translate([pin, width / 2, -1]) cylinder(high+2, r = 2);
+    }
     color("blue") lip();
 }
 
