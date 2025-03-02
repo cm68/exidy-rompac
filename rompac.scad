@@ -1,5 +1,5 @@
 /*
- * $Id: rompac.scad 2027 2025-03-01 14:11:11 curt
+ * $Id: rompac.scad 2028 2025-03-01 18:28:49 curt
  */
 
 width = 100;
@@ -15,7 +15,7 @@ sidethick = 2;
 // edit this to generate either "b" - bottom
 // or "t" - top
 // or both -"tb"
-express = "t";
+express = "b";
 
 module platform() {
     translate([8,12,0]) cube([2,73,plat]);
@@ -49,6 +49,9 @@ module base() {
                 [ bevel_len, 0]]);
         translate([10, 14, 1]) cube([120, 70, 2]);
     }
+    translate([0, 54, 0]) cube([length, 8, 2]);
+    translate([0, 27, 0]) cube([length, 6, 2]);
+    translate([pin - 5, 0, 0]) cube([10, width, 2]);
 }
 
 module edge() {
@@ -76,7 +79,7 @@ module top() {
                 [ length, 0],
                 [ bevel_len, 0]]);
     
-    translate([pin, width / 2, 0]) cylinder(high - 6, r = 1.6);
+    translate([pin, width / 2, 0]) cylinder(high - 6, r = 1.8);
 
     translate([bevel_len, sidethick, 0]) cube([length - bevel_len - sidethick, 1, toplip]);
     translate([length - sidethick - 1, sidethick, 0]) cube([1, width - (sidethick * 2), toplip]);
@@ -88,8 +91,8 @@ module top() {
                 [bevel_len, width - (sidethick * 2)], [bevel_len, width-sidethick]]);
     }
     translate([8,15,0]) cube([2,72, high - plat - 1.6]);
-    translate([8, 13, 0]) cube([124,4,high - plat - 1.6]);
-    translate([8, 84, 0]) cube([124,4,high - plat -1.6]);
+    translate([36, 12, 0]) cube([96,4,high - plat - 1.6]);
+    translate([8, 86, 0]) cube([124,4,high - plat -1.6]);
 }
 
 if (search("b", express)) {
