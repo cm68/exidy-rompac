@@ -1,4 +1,5 @@
-this is a 3d printable exidy rom-pac case
+this is a 3d printable exidy rom-pac case, tested with the original rom-pac
+and the modern clone at https://github.com/abzman/Exidy-Sorcerer-Stuff
 
 I uploaded it to thingyverse.
 
@@ -8,10 +9,15 @@ heart's content.
 the rompac.stl file is not really useful as anything other than a visual
 fit check or thumbnail.
 
-I printed mine on a flashforge guider 2S with nylon, but be fine with anything
+I printed mine on a flashforge guider 2S with PLA, but be fine with anything
 
-nylon at 260 degrees filament, 77 degree platform 
-with brim, no raft, 25% fill.
+PLA at 215 degrees filament, 70 degree platform 
+with raft, 25% fill.
+
+the shells are held together with the press-fit pin, this might want a little
+sanding, depending on your printer.  if it is loose, tape works.
+i might put locking tabs on the inside surfaces of the front bevel,
+if you do this before me, send it to me at curt@zen-room.org.
 
 yeah, it's GPL3.  ship it and derived works with buildable source code; 
 if you learned something from this, you must pay that learning forward.
