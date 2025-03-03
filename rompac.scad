@@ -15,7 +15,7 @@ sidethick = 2;
 // edit this to generate either "b" - bottom
 // or "t" - top
 // or both -"tb"
-express = "bt";
+express = "b";
 
 module platform() {
     translate([8,12,0]) cube([2,73,plat]);
@@ -72,20 +72,20 @@ module top() {
                 [ length, 0],
                 [ bevel_len, 0]]);
     
-    translate([pin, width / 2, 0]) cylinder(high - 6, r = 1.8);
+    translate([pin, width / 2, 0]) cylinder(high - 4, r = 2.5);
 
     translate([bevel_len, sidethick, 0]) cube([length - bevel_len - sidethick, 1, toplip]);
     translate([length - sidethick - 1, sidethick, 0]) cube([1, width - (sidethick * 2), toplip]);
     translate([bevel_len, width - sidethick - 1, 0]) cube([length - bevel_len - sidethick, 1, toplip]);
-    linear_extrude(height = 18) {
+    linear_extrude(height = 20) {
         polygon([[0, bevel_width + (sidethick *2)], [0, bevel_width + sidethick], 
                 [bevel_len, sidethick], [bevel_len, (sidethick*2)]]);
         polygon([[0, width - bevel_width - sidethick], [0, width - bevel_width - (sidethick * 2)], 
                 [bevel_len, width - (sidethick * 2)], [bevel_len, width-sidethick]]);
     }
-    translate([8,15,0]) cube([2,72, high - plat - 1.6]);
-    translate([36, 12, 0]) cube([96,4,high - plat - 1.6]);
-    translate([8, 86, 0]) cube([124,4,high - plat -1.6]);
+    translate([8,15,0]) cube([2,72, high - plat]);
+    translate([36, 12, 0]) cube([96,4, high - plat]);
+    translate([8, 86, 0]) cube([124,4, high - plat]);
 }
 
 if (search("b", express)) {
@@ -96,7 +96,7 @@ if (search("b", express)) {
             translate([pin, width / 2, 0]) cylinder(high-2, r = 4);
             platform();
         }
-        translate([pin, width / 2, -1]) cylinder(high+2, r = 2);
+        translate([pin, width / 2, -1]) cylinder(high+2, r = 3);
     }
     color("blue") lip();
 }
@@ -104,7 +104,7 @@ if (search("b", express)) {
 if (search("t", express)) {
     echo("t");
     if (search("b", express)) {
-        color("red") translate([0, width, high]) rotate([180, 0, 0]) top();
+        color("red") translate([0, width, high+2]) rotate([180, 0, 0]) top();
         echo("tb");
     } else {
         top();
