@@ -12,10 +12,15 @@ high = 20;
 plat = 11;
 sidethick = 2;
 
+/* size of pin and hole */
+pinouter = 4; // fixed by size of PCB hole
+pininner = 2.3;
+pinhole = 2.45;
+
 // edit this to generate either "b" - bottom
 // or "t" - top
 // or both -"tb"
-express = "b";
+express = "tb";
 
 module platform() {
     translate([8,12,0]) cube([2,73,plat]);
@@ -72,7 +77,7 @@ module top() {
                 [ length, 0],
                 [ bevel_len, 0]]);
     
-    translate([pin, width / 2, 0]) cylinder(high - 4, r = 2.5);
+    translate([pin, width / 2, 0]) cylinder(high - 4, r = pininner);
 
     translate([bevel_len, sidethick, 0]) cube([length - bevel_len - sidethick, 1, toplip]);
     translate([length - sidethick - 1, sidethick, 0]) cube([1, width - (sidethick * 2), toplip]);
@@ -93,10 +98,10 @@ if (search("b", express)) {
         union() {
             edge();
             base();
-            translate([pin, width / 2, 0]) cylinder(high-2, r = 4);
+            translate([pin, width / 2, 0]) cylinder(high-2, r = pinouter);
             platform();
         }
-        translate([pin, width / 2, -1]) cylinder(high+2, r = 3);
+        translate([pin, width / 2, -1]) cylinder(high+2, r = pinhole);
     }
     color("blue") lip();
 }
