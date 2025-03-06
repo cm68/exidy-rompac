@@ -12,7 +12,10 @@ fit check or thumbnail.
 I printed mine on a flashforge guider 2S with PLA, but be fine with anything
 
 PLA at 215 degrees filament, 70 degree platform 
-with raft, 25% fill.
+with raft, 25% fill. the pin is a bit weak
+
+PETG at 240, platform 70 with shell thickness = 4mm.  
+this has the pin strong enough.
 
 the shells are held together with the press-fit pin, this might want a little
 sanding, depending on your printer.  if it is loose, tape works.

@@ -15,7 +15,8 @@ sidethick = 2;
 /* size of pin and hole */
 pinouter = 4; // fixed by size of PCB hole
 pininner = 2.3;
-pinhole = 2.45;
+pinhole = 2.5;
+pinlength = high - 3;
 
 // edit this to generate either "b" - bottom
 // or "t" - top
@@ -77,7 +78,7 @@ module top() {
                 [ length, 0],
                 [ bevel_len, 0]]);
     
-    translate([pin, width / 2, 0]) cylinder(high - 4, r = pininner);
+    translate([pin, width / 2, 0]) cylinder(pinlength, r = pininner);
 
     translate([bevel_len, sidethick, 0]) cube([length - bevel_len - sidethick, 1, toplip]);
     translate([length - sidethick - 1, sidethick, 0]) cube([1, width - (sidethick * 2), toplip]);
